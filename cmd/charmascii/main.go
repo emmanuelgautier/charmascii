@@ -1,4 +1,4 @@
-// Command charma generates ASCII art from text.
+// Command charmascii generates ASCII art from text.
 package main
 
 import (
@@ -8,8 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/emmanuelgautier/charma"
-	"github.com/emmanuelgautier/charma/internal/output"
+	"github.com/emmanuelgautier/charmascii"
+	"github.com/emmanuelgautier/charmascii/internal/output"
 )
 
 // Populated by GoReleaser via -ldflags.
@@ -47,21 +47,21 @@ func newRootCmd() *cobra.Command {
 	)
 
 	cmd := &cobra.Command{
-		Use:   "charma [text]",
+		Use:   "charmascii [text]",
 		Short: "Generate ASCII art from text",
-		Long: `charma converts text to ASCII art using FIGlet fonts, with
+		Long: `charmascii converts text to ASCII art using FIGlet fonts, with
 optional borders, colors, gradients, and multiple output formats.`,
 		Args:          cobra.MaximumNArgs(1),
 		SilenceUsage:  true,
 		SilenceErrors: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if showVersion {
-				fmt.Printf("charma %s (%s) built %s\n", version, commit, date)
+				fmt.Printf("charmascii %s (%s) built %s\n", version, commit, date)
 				return nil
 			}
 
 			if listFonts {
-				for _, f := range charma.ListFonts() {
+				for _, f := range charmascii.ListFonts() {
 					fmt.Println(f)
 				}
 				return nil
@@ -72,7 +72,7 @@ optional borders, colors, gradients, and multiple output formats.`,
 			}
 
 			text := args[0]
-			opts := charma.Options{
+			opts := charmascii.Options{
 				Font:        font,
 				Border:      borderStyle,
 				Color:       textColor,
@@ -87,7 +87,7 @@ optional borders, colors, gradients, and multiple output formats.`,
 				TextShadow:  textShadow,
 			}
 
-			result, err := charma.Generate(text, opts)
+			result, err := charmascii.Generate(text, opts)
 			if err != nil {
 				return err
 			}
@@ -102,7 +102,7 @@ optional borders, colors, gradients, and multiple output formats.`,
 				Version: version,
 				Command: buildCommand(cmd, args[0], font, borderStyle, textColor, borderColor, align,
 					padding, vPadding, width, outputFmt, outFile, gradient, bgColor, noColor, textShadow),
-				URL: "https://github.com/emmanuelgautier/charma",
+				URL: "https://github.com/emmanuelgautier/charmascii",
 			}
 
 			switch outputFmt {
@@ -161,7 +161,7 @@ optional borders, colors, gradients, and multiple output formats.`,
 func buildCommand(cmd *cobra.Command, text, font, borderStyle, textColor, borderColor, align string,
 	padding, vPadding, width int, outputFmt, outFile, gradient, bgColor string, noColor, textShadow bool,
 ) string {
-	parts := []string{"charma", fmt.Sprintf("%q", text)}
+	parts := []string{"charmascii", fmt.Sprintf("%q", text)}
 	f := cmd.Flags()
 	if f.Changed("font") {
 		parts = append(parts, "--font", font)

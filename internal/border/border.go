@@ -33,7 +33,7 @@ var AvailableStyles = []string{
 // boxChars holds the six characters that define a box style.
 type boxChars struct {
 	tl, tr, bl, br string // corners
-	h, v            string // horizontal / vertical
+	h, v           string // horizontal / vertical
 }
 
 // styleChars maps our style names to the box-drawing characters.

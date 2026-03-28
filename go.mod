@@ -1,4 +1,4 @@
-module github.com/emmanuelgautier/charma
+module github.com/emmanuelgautier/charmascii
 
 go 1.26
 

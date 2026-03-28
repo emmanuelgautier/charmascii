@@ -1,10 +1,11 @@
-# charma
+# charmascii
 
-[![CI](https://github.com/emmanuelgautier/charma/actions/workflows/ci.yml/badge.svg)](https://github.com/emmanuelgautier/charma/actions/workflows/ci.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/emmanuelgautier/charma.svg)](https://pkg.go.dev/github.com/emmanuelgautier/charma)
+[![CI](https://github.com/emmanuelgautier/charmascii/actions/workflows/ci.yml/badge.svg)](https://github.com/emmanuelgautier/charmascii/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/emmanuelgautier/charmascii?style=for-the-badge)](https://goreportcard.com/report/github.com/emmanuelgautier/charmascii)
+[![Go Reference](https://pkg.go.dev/badge/github.com/emmanuelgautier/charmascii.svg)](https://pkg.go.dev/github.com/emmanuelgautier/charmascii)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**charma** converts text to styled ASCII art. It works as both a standalone CLI tool and an importable Go library.
+**charmascii** converts text to styled ASCII art. It works as both a standalone CLI tool and an importable Go library.
 
 ## Features
 
@@ -19,58 +20,58 @@
 ### Homebrew (macOS/Linux)
 
 ```bash
-brew install emmanuelgautier/tap/charma
+brew install emmanuelgautier/tap/charmascii
 ```
 
 ### Snap (Linux)
 
 ```bash
-sudo snap install charma
+sudo snap install charmascii
 ```
 
 ### Chocolatey (Windows)
 
 ```powershell
-choco install charma
+choco install charmascii
 ```
 
 ### Docker
 
 ```bash
 # Run directly
-docker run --rm ghcr.io/emmanuelgautier/charma "Hello World"
+docker run --rm ghcr.io/emmanuelgautier/charmascii "Hello World"
 
 # With flags
-docker run --rm ghcr.io/emmanuelgautier/charma "Hello World" --font doom --border double --color cyan
+docker run --rm ghcr.io/emmanuelgautier/charmascii "Hello World" --font doom --border double --color cyan
 ```
 
 ### Go install
 
 ```bash
-go install github.com/emmanuelgautier/charma/cmd/charma@latest
+go install github.com/emmanuelgautier/charmascii/cmd/charmascii@latest
 ```
 
 ### Download a release binary
 
-Pre-built binaries for Linux, macOS, and Windows are available on the [releases page](https://github.com/emmanuelgautier/charma/releases). Release artifacts are signed with [cosign](https://github.com/sigstore/cosign) — verify with:
+Pre-built binaries for Linux, macOS, and Windows are available on the [releases page](https://github.com/emmanuelgautier/charmascii/releases). Release artifacts are signed with [cosign](https://github.com/sigstore/cosign) — verify with:
 
 ```bash
 cosign verify-blob \
-  --certificate charma_<version>_checksums.txt.pem \
-  --signature charma_<version>_checksums.txt.sig \
-  --certificate-identity-regexp "https://github.com/emmanuelgautier/charma" \
+  --certificate charmascii_<version>_checksums.txt.pem \
+  --signature charmascii_<version>_checksums.txt.sig \
+  --certificate-identity-regexp "https://github.com/emmanuelgautier/charmascii" \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-  charma_<version>_checksums.txt
+  charmascii_<version>_checksums.txt
 ```
 
 ## CLI Usage
 
 ```bash
-charma "Hello World"
-charma "Hello World" --font doom --border double --color cyan
-charma "v2.0"       --font slant --border rounded --output png --out-file banner.png
-charma "API"        --font big   --gradient "blue:cyan" --border bold --align center
-charma --list-fonts
+charmascii "Hello World"
+charmascii "Hello World" --font doom --border double --color cyan
+charmascii "v2.0"       --font slant --border rounded --output png --out-file banner.png
+charmascii "API"        --font big   --gradient "blue:cyan" --border bold --align center
+charmascii --list-fonts
 ```
 
 ### All flags
@@ -95,14 +96,14 @@ charma --list-fonts
 ## Library Usage
 
 ```go
-import "github.com/emmanuelgautier/charma"
+import "github.com/emmanuelgautier/charmascii"
 
-opts := charma.DefaultOptions()
+opts := charmascii.DefaultOptions()
 opts.Font   = "doom"
 opts.Border = "double"
 opts.Color  = "cyan"
 
-result, err := charma.Generate("Hello", opts)
+result, err := charmascii.Generate("Hello", opts)
 if err != nil {
     log.Fatal(err)
 }
@@ -114,10 +115,10 @@ fmt.Println(result.Lines[0])        // plain-text first line
 ## Development
 
 ```bash
-git clone https://github.com/emmanuelgautier/charma
-cd charma
+git clone https://github.com/emmanuelgautier/charmascii
+cd charmascii
 
-make build        # compile binary → bin/charma
+make build        # compile binary → bin/charmascii
 make test         # run all tests
 make test-race    # run with race detector
 make coverage     # generate coverage.html
@@ -129,9 +130,9 @@ make snapshot     # local GoReleaser snapshot
 ## Project structure
 
 ```
-charma/
-├── charma.go              # Public library API
-├── cmd/charma/main.go     # CLI entry point (Cobra)
+charmascii/
+├── charmascii.go              # Public library API
+├── cmd/charmascii/main.go     # CLI entry point (Cobra)
 ├── internal/
 │   ├── renderer/            # FIGlet rendering via go-figure
 │   ├── border/              # Box drawing via box-cli-maker
@@ -142,4 +143,4 @@ charma/
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT © [Emmanuel Gautier](https://www.emmanuelgautier.com/) — see [LICENSE](https://github.com/emmanuelgautier/charmascii/blob/main/LICENSE) for details.

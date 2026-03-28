@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/emmanuelgautier/charma/internal/border"
+	"github.com/emmanuelgautier/charmascii/internal/border"
 )
 
 func TestApply_None(t *testing.T) {

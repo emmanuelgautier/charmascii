@@ -12,8 +12,8 @@ import (
 //go:embed fonts/*.flf
 var fontFS embed.FS
 
-const figASCIIOffset = 32  // ASCII code of space (first printable)
-const figASCIIMax = 126    // ASCII code of ~ (last printable)
+const figASCIIOffset = 32                             // ASCII code of space (first printable)
+const figASCIIMax = 126                               // ASCII code of ~ (last printable)
 const figNumGlyphs = figASCIIMax - figASCIIOffset + 1 // 95
 
 type figFont struct {

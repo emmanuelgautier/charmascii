@@ -1,4 +1,4 @@
-package charma_test
+package charmascii_test
 
 import (
 	"flag"
@@ -10,15 +10,15 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/emmanuelgautier/charma"
-	"github.com/emmanuelgautier/charma/internal/output"
+	"github.com/emmanuelgautier/charmascii"
+	"github.com/emmanuelgautier/charmascii/internal/output"
 )
 
 var update = flag.Bool("update", false, "regenerate golden test files")
 
 // TestGenerate_Default checks the basic generation pipeline.
 func TestGenerate_Default(t *testing.T) {
-	result, err := charma.Generate("Hi", charma.DefaultOptions())
+	result, err := charmascii.Generate("Hi", charmascii.DefaultOptions())
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	assert.NotEmpty(t, result.Lines)
@@ -26,15 +26,15 @@ func TestGenerate_Default(t *testing.T) {
 }
 
 func TestGenerate_EmptyText(t *testing.T) {
-	result, err := charma.Generate("", charma.DefaultOptions())
+	result, err := charmascii.Generate("", charmascii.DefaultOptions())
 	require.NoError(t, err)
 	assert.Empty(t, result.Lines)
 }
 
 func TestGenerate_WithColor(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Color = "cyan"
-	result, err := charma.Generate("A", opts)
+	result, err := charmascii.Generate("A", opts)
 	require.NoError(t, err)
 	// Styled should contain ANSI codes; Lines should be plain.
 	for _, l := range result.Lines {
@@ -43,18 +43,18 @@ func TestGenerate_WithColor(t *testing.T) {
 }
 
 func TestGenerate_NoColor(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Color = "red"
 	opts.NoColor = true
-	result, err := charma.Generate("B", opts)
+	result, err := charmascii.Generate("B", opts)
 	require.NoError(t, err)
 	assert.NotContains(t, result.Styled, "\x1b", "Styled should be plain when NoColor=true")
 }
 
 func TestGenerate_WithBorder(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Border = "single"
-	result, err := charma.Generate("X", opts)
+	result, err := charmascii.Generate("X", opts)
 	require.NoError(t, err)
 	assert.NotEmpty(t, result.Lines)
 	// Top border line must contain corner char.
@@ -69,39 +69,39 @@ func TestGenerate_WithBorder(t *testing.T) {
 }
 
 func TestGenerate_WithGradient(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Gradient = "red:blue"
-	result, err := charma.Generate("Go", opts)
+	result, err := charmascii.Generate("Go", opts)
 	require.NoError(t, err)
 	assert.NotEmpty(t, result.Lines)
 }
 
 func TestGenerate_InvalidGradient(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Gradient = "nocolon"
-	_, err := charma.Generate("X", opts)
+	_, err := charmascii.Generate("X", opts)
 	assert.Error(t, err)
 }
 
 func TestGenerate_InvalidFont(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Font = "nosuchfont"
-	_, err := charma.Generate("X", opts)
+	_, err := charmascii.Generate("X", opts)
 	assert.Error(t, err)
 }
 
 func TestGenerate_InvalidBorder(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Border = "nosuchborder"
-	_, err := charma.Generate("X", opts)
+	_, err := charmascii.Generate("X", opts)
 	assert.Error(t, err)
 }
 
 func TestGenerate_CenterAlign(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Align = "center"
 	opts.Width = 80
-	result, err := charma.Generate("Hi", opts)
+	result, err := charmascii.Generate("Hi", opts)
 	require.NoError(t, err)
 	// At least one line should have leading spaces due to centering.
 	hasLeadingSpace := false
@@ -115,9 +115,9 @@ func TestGenerate_CenterAlign(t *testing.T) {
 }
 
 func TestGenerate_WidthTruncation(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Width = 5
-	result, err := charma.Generate("Hello World", opts)
+	result, err := charmascii.Generate("Hello World", opts)
 	require.NoError(t, err)
 	for _, l := range result.Lines {
 		assert.LessOrEqual(t, len([]rune(l)), 5, "line should be truncated to width 5")
@@ -125,11 +125,11 @@ func TestGenerate_WidthTruncation(t *testing.T) {
 }
 
 func TestGenerate_AllFonts(t *testing.T) {
-	for _, font := range charma.ListFonts() {
+	for _, font := range charmascii.ListFonts() {
 		t.Run(font, func(t *testing.T) {
-			opts := charma.DefaultOptions()
+			opts := charmascii.DefaultOptions()
 			opts.Font = font
-			result, err := charma.Generate("A", opts)
+			result, err := charmascii.Generate("A", opts)
 			require.NoError(t, err, "font: %s", font)
 			assert.NotEmpty(t, result.Lines, "font: %s", font)
 		})
@@ -139,9 +139,9 @@ func TestGenerate_AllFonts(t *testing.T) {
 // Golden file tests ─────────────────────────────────────────────────────────
 
 func TestGolden_Standard(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Font = "standard"
-	result, err := charma.Generate("Hello", opts)
+	result, err := charmascii.Generate("Hello", opts)
 	require.NoError(t, err)
 
 	got := strings.Join(result.Lines, "\n") + "\n"
@@ -149,9 +149,9 @@ func TestGolden_Standard(t *testing.T) {
 }
 
 func TestGolden_Doom(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Font = "doom"
-	result, err := charma.Generate("Hello", opts)
+	result, err := charmascii.Generate("Hello", opts)
 	require.NoError(t, err)
 
 	got := strings.Join(result.Lines, "\n") + "\n"
@@ -159,9 +159,9 @@ func TestGolden_Doom(t *testing.T) {
 }
 
 func TestGolden_SVG(t *testing.T) {
-	opts := charma.DefaultOptions()
+	opts := charmascii.DefaultOptions()
 	opts.Font = "banner"
-	result, err := charma.Generate("Hello", opts)
+	result, err := charmascii.Generate("Hello", opts)
 	require.NoError(t, err)
 
 	// Build the SVG content so we can golden-test it.
@@ -198,20 +198,20 @@ func checkGolden(t *testing.T, path, got string) {
 }
 
 func TestListFonts(t *testing.T) {
-	fonts := charma.ListFonts()
+	fonts := charmascii.ListFonts()
 	assert.NotEmpty(t, fonts)
 	assert.Contains(t, fonts, "standard")
 	assert.Contains(t, fonts, "doom")
 }
 
 func TestListBorderStyles(t *testing.T) {
-	styles := charma.ListBorderStyles()
+	styles := charmascii.ListBorderStyles()
 	assert.Contains(t, styles, "none")
 	assert.Contains(t, styles, "double")
 }
 
 func TestListColors(t *testing.T) {
-	colors := charma.ListColors()
+	colors := charmascii.ListColors()
 	assert.Contains(t, colors, "default")
 	assert.Contains(t, colors, "cyan")
 }

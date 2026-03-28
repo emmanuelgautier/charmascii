@@ -1,24 +1,24 @@
-// Package charma converts text to styled ASCII art.
+// Package charmascii converts text to styled ASCII art.
 //
 // It can be used both as a standalone CLI tool and as an importable Go library.
 //
 // Basic usage:
 //
-//	result, err := charma.Generate("Hello", charma.DefaultOptions())
+//	result, err := charmascii.Generate("Hello", charmascii.DefaultOptions())
 //	if err != nil {
 //	    log.Fatal(err)
 //	}
 //	fmt.Println(result.Styled)
-package charma
+package charmascii
 
 import (
 	"fmt"
 	"strings"
 	"unicode/utf8"
 
-	"github.com/emmanuelgautier/charma/internal/border"
-	"github.com/emmanuelgautier/charma/internal/color"
-	"github.com/emmanuelgautier/charma/internal/renderer"
+	"github.com/emmanuelgautier/charmascii/internal/border"
+	"github.com/emmanuelgautier/charmascii/internal/color"
+	"github.com/emmanuelgautier/charmascii/internal/renderer"
 )
 
 // Options configures ASCII art generation.

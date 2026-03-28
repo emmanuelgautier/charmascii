@@ -1,3 +1,3 @@
 FROM scratch
-COPY charma /charma
-ENTRYPOINT ["/charma"]
+COPY charmascii /charmascii
+ENTRYPOINT ["/charmascii"]

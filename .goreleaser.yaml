@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 version: 2
 
-project_name: charma
+project_name: charmascii
 
 before:
   hooks:
@@ -9,9 +9,9 @@ before:
     - go generate ./...
 
 builds:
-  - id: charma
-    main: ./cmd/charma
-    binary: charma
+  - id: charmascii
+    main: ./cmd/charmascii
+    binary: charmascii
     env:
       - CGO_ENABLED=0
     goos:
@@ -34,8 +34,8 @@ builds:
       - -X main.date={{.Date}}
 
 archives:
-  - id: charma
-    builds: [charma]
+  - id: charmascii
+    builds: [charmascii]
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     format: tar.gz
     format_overrides:
@@ -69,13 +69,13 @@ docker_signs:
     artifacts: all
 
 dockers:
-  - id: charma-amd64
-    ids: [charma]
+  - id: charmascii-amd64
+    ids: [charmascii]
     goos: linux
     goarch: amd64
     image_templates:
-      - "ghcr.io/emmanuelgautier/charma:{{ .Tag }}-amd64"
-      - "ghcr.io/emmanuelgautier/charma:v{{ .Major }}-amd64"
+      - "ghcr.io/emmanuelgautier/charmascii:{{ .Tag }}-amd64"
+      - "ghcr.io/emmanuelgautier/charmascii:v{{ .Major }}-amd64"
     use: buildx
     dockerfile: Dockerfile
     build_flag_templates:
@@ -83,17 +83,17 @@ dockers:
       - "--label=org.opencontainers.image.title={{ .ProjectName }}"
       - "--label=org.opencontainers.image.description=Converts text to styled ASCII art"
       - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.source=https://github.com/emmanuelgautier/charma"
+      - "--label=org.opencontainers.image.source=https://github.com/emmanuelgautier/charmascii"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
       - "--label=org.opencontainers.image.licenses=MIT"
 
-  - id: charma-arm64
-    ids: [charma]
+  - id: charmascii-arm64
+    ids: [charmascii]
     goos: linux
     goarch: arm64
     image_templates:
-      - "ghcr.io/emmanuelgautier/charma:{{ .Tag }}-arm64"
-      - "ghcr.io/emmanuelgautier/charma:v{{ .Major }}-arm64"
+      - "ghcr.io/emmanuelgautier/charmascii:{{ .Tag }}-arm64"
+      - "ghcr.io/emmanuelgautier/charmascii:v{{ .Major }}-arm64"
     use: buildx
     dockerfile: Dockerfile
     build_flag_templates:
@@ -101,45 +101,45 @@ dockers:
       - "--label=org.opencontainers.image.title={{ .ProjectName }}"
       - "--label=org.opencontainers.image.description=Converts text to styled ASCII art"
       - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.source=https://github.com/emmanuelgautier/charma"
+      - "--label=org.opencontainers.image.source=https://github.com/emmanuelgautier/charmascii"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
       - "--label=org.opencontainers.image.licenses=MIT"
 
 docker_manifests:
-  - name_template: "ghcr.io/emmanuelgautier/charma:{{ .Tag }}"
+  - name_template: "ghcr.io/emmanuelgautier/charmascii:{{ .Tag }}"
     image_templates:
-      - "ghcr.io/emmanuelgautier/charma:{{ .Tag }}-amd64"
-      - "ghcr.io/emmanuelgautier/charma:{{ .Tag }}-arm64"
-  - name_template: "ghcr.io/emmanuelgautier/charma:v{{ .Major }}"
+      - "ghcr.io/emmanuelgautier/charmascii:{{ .Tag }}-amd64"
+      - "ghcr.io/emmanuelgautier/charmascii:{{ .Tag }}-arm64"
+  - name_template: "ghcr.io/emmanuelgautier/charmascii:v{{ .Major }}"
     image_templates:
-      - "ghcr.io/emmanuelgautier/charma:v{{ .Major }}-amd64"
-      - "ghcr.io/emmanuelgautier/charma:v{{ .Major }}-arm64"
-  - name_template: "ghcr.io/emmanuelgautier/charma:latest"
+      - "ghcr.io/emmanuelgautier/charmascii:v{{ .Major }}-amd64"
+      - "ghcr.io/emmanuelgautier/charmascii:v{{ .Major }}-arm64"
+  - name_template: "ghcr.io/emmanuelgautier/charmascii:latest"
     image_templates:
-      - "ghcr.io/emmanuelgautier/charma:{{ .Tag }}-amd64"
-      - "ghcr.io/emmanuelgautier/charma:{{ .Tag }}-arm64"
+      - "ghcr.io/emmanuelgautier/charmascii:{{ .Tag }}-amd64"
+      - "ghcr.io/emmanuelgautier/charmascii:{{ .Tag }}-arm64"
 
 brews:
-  - name: charma
-    ids: [charma]
+  - name: charmascii
+    ids: [charmascii]
     repository:
       owner: emmanuelgautier
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    homepage: "https://github.com/emmanuelgautier/charma"
+    homepage: "https://github.com/emmanuelgautier/charmascii"
     description: "Converts text to styled ASCII art with borders, colors, and multiple output formats"
     license: "MIT"
     install: |
-      bin.install "charma"
+      bin.install "charmascii"
     test: |
-      system "#{bin}/charma", "--version"
+      system "#{bin}/charmascii", "--version"
 
 snapcrafts:
-  - name: charma
-    ids: [charma]
+  - name: charmascii
+    ids: [charmascii]
     summary: "ASCII art generator CLI"
     description: |
-      charma converts text to styled ASCII art. It supports multiple FIGlet fonts,
+      charmascii converts text to styled ASCII art. It supports multiple FIGlet fonts,
       Unicode box borders, ANSI colors and gradients, and output formats including
       terminal, txt, png, and svg.
     grade: stable
@@ -147,30 +147,30 @@ snapcrafts:
     publish: true
     license: MIT
     apps:
-      charma:
-        command: charma
+      charmascii:
+        command: charmascii
         plugs:
           - home
 
 chocolateys:
-  - name: charma
-    ids: [charma]
+  - name: charmascii
+    ids: [charmascii]
     owners: emmanuelgautier
-    title: charma
+    title: charmascii
     authors: emmanuelgautier
-    project_url: "https://github.com/emmanuelgautier/charma"
-    license_url: "https://github.com/emmanuelgautier/charma/blob/main/LICENSE"
+    project_url: "https://github.com/emmanuelgautier/charmascii"
+    license_url: "https://github.com/emmanuelgautier/charmascii/blob/main/LICENSE"
     require_license_acceptance: false
-    project_source_url: "https://github.com/emmanuelgautier/charma"
-    docs_url: "https://github.com/emmanuelgautier/charma/blob/main/README.md"
-    bug_tracker_url: "https://github.com/emmanuelgautier/charma/issues"
+    project_source_url: "https://github.com/emmanuelgautier/charmascii"
+    docs_url: "https://github.com/emmanuelgautier/charmascii/blob/main/README.md"
+    bug_tracker_url: "https://github.com/emmanuelgautier/charmascii/issues"
     summary: "ASCII art generator CLI tool"
     description: |
-      charma converts text to styled ASCII art. It supports multiple FIGlet fonts,
+      charmascii converts text to styled ASCII art. It supports multiple FIGlet fonts,
       Unicode box borders, ANSI colors and gradients, and output formats including
       terminal, txt, png, and svg.
     tags: "ascii art cli terminal"
-    icon_url: "https://raw.githubusercontent.com/emmanuelgautier/charma/main/assets/icon.png"
+    icon_url: "https://raw.githubusercontent.com/emmanuelgautier/charmascii/main/assets/icon.png"
     copyright: "2024 Emmanuel Gautier"
     api_key: "{{ .Env.CHOCOLATEY_API_KEY }}"
     source_repo: "https://push.chocolatey.org/"
@@ -190,7 +190,7 @@ changelog:
 release:
   github:
     owner: emmanuelgautier
-    name: charma
+    name: charmascii
   draft: false
   prerelease: auto
   name_template: "v{{.Version}}"

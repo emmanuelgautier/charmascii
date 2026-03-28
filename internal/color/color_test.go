@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/emmanuelgautier/charma/internal/color"
+	"github.com/emmanuelgautier/charmascii/internal/color"
 )
 
 func TestApplyColor_Default(t *testing.T) {
@@ -111,7 +111,7 @@ func TestIsHexColor(t *testing.T) {
 		{"#abc", true},
 		{"#GGGGGG", false},
 		{"FF0000", false},
-		{"#FF00", false},   // 4 digits — invalid
+		{"#FF00", false},    // 4 digits — invalid
 		{"#FF00000", false}, // 7 digits — invalid
 		{"", false},
 		{"red", false},

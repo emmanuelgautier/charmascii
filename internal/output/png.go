@@ -87,7 +87,7 @@ func injectPNGTextChunks(data []byte, meta Metadata) []byte {
 	var out bytes.Buffer
 	out.Write(data[:iendStart])
 
-	toolStr := fmt.Sprintf("charma %s (%s)", meta.Version, meta.URL)
+	toolStr := fmt.Sprintf("charmascii %s (%s)", meta.Version, meta.URL)
 	writePNGtEXtChunk(&out, "Software", toolStr)
 	if meta.Command != "" {
 		writePNGtEXtChunk(&out, "Comment", meta.Command)

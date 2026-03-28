@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/emmanuelgautier/charma/internal/output"
+	"github.com/emmanuelgautier/charmascii/internal/output"
 )
 
 func TestWriteSVG_Basic(t *testing.T) {

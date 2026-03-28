@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/emmanuelgautier/charma/internal/renderer"
+	"github.com/emmanuelgautier/charmascii/internal/renderer"
 )
 
 func TestRender_Standard(t *testing.T) {
