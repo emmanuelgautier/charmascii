@@ -78,7 +78,6 @@ func parseFIGFont(data []byte) (*figFont, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(data))
 	scanner.Buffer(make([]byte, 1<<20), 1<<20)
 
-	// Locate the header line (starts with "flf2").
 	var header string
 	for scanner.Scan() {
 		if strings.HasPrefix(scanner.Text(), "flf2") {
@@ -90,11 +89,10 @@ func parseFIGFont(data []byte) (*figFont, error) {
 		return nil, fmt.Errorf("not a FIGlet font (missing flf2 header)")
 	}
 
-	// Header format: "flf2a<hardblank> <height> <baseline> <maxlen> <oldlayout> <commentlines> [...]"
 	if len(header) < 7 {
 		return nil, fmt.Errorf("header too short: %q", header)
 	}
-	hardblank := header[5] // byte right after "flf2a"
+	hardblank := header[5]
 
 	var height, baseline, maxLen, oldLayout, commentLines int
 	n, _ := fmt.Sscanf(header[6:], " %d %d %d %d %d",
@@ -102,9 +100,7 @@ func parseFIGFont(data []byte) (*figFont, error) {
 	if n < 2 {
 		return nil, fmt.Errorf("cannot parse height from header %q", header)
 	}
-	// commentLines defaults to 0 if not parsed.
 
-	// Skip comment lines.
 	for i := 0; i < commentLines; i++ {
 		if !scanner.Scan() {
 			break
@@ -113,7 +109,6 @@ func parseFIGFont(data []byte) (*figFont, error) {
 
 	font := &figFont{height: height}
 
-	// Read 95 character glyphs (ASCII 32 … 126).
 	for idx := 0; idx < figNumGlyphs; idx++ {
 		glyph, err := readFIGGlyph(scanner, height, hardblank)
 		if err != nil {
@@ -121,7 +116,6 @@ func parseFIGFont(data []byte) (*figFont, error) {
 		}
 		ch := rune(idx + figASCIIOffset)
 		if ch == ' ' {
-			// Override with 2-space rows for compatibility.
 			for r := range glyph {
 				glyph[r] = "  "
 			}

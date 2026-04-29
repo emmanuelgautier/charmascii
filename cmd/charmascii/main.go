@@ -92,7 +92,6 @@ optional borders, colors, gradients, and multiple output formats.`,
 				return err
 			}
 
-			// Determine output file name.
 			dest := outFile
 			if dest == "" && outputFmt != "terminal" {
 				dest = "output." + defaultExt(outputFmt)
@@ -114,8 +113,11 @@ optional borders, colors, gradients, and multiple output formats.`,
 				return output.WritePNG(dest, result.Lines, bgColor, textColor, meta)
 			case "svg":
 				return output.WriteSVG(dest, result.Lines, bgColor, textColor, meta)
+			case "json":
+				return output.WriteJSON(os.Stdout, result.Lines, result.Styled,
+					output.JSONMetadata{Font: font, Border: borderStyle, Width: width})
 			default:
-				return fmt.Errorf("unknown output format %q; valid choices: terminal, txt, png, svg", outputFmt)
+				return fmt.Errorf("unknown output format %q; valid choices: terminal, txt, png, svg, json", outputFmt)
 			}
 		},
 	}
@@ -136,7 +138,7 @@ optional borders, colors, gradients, and multiple output formats.`,
 	f.IntVar(&vPadding, "v-padding", -1,
 		"Inner vertical padding (blank lines) inside the border box (default: same as --padding)")
 	f.StringVar(&outputFmt, "output", "terminal",
-		"Output format (terminal|txt|png|svg)")
+		"Output format (terminal|txt|png|svg|json)")
 	f.StringVar(&outFile, "out-file", "",
 		"Output file path (default: ./output.<ext>)")
 	f.IntVar(&width, "width", 0,
@@ -153,6 +155,8 @@ optional borders, colors, gradients, and multiple output formats.`,
 		"Print all available fonts and exit")
 	f.BoolVar(&showVersion, "version", false,
 		"Print version information and exit")
+
+	cmd.AddCommand(newMCPCmd())
 
 	return cmd
 }

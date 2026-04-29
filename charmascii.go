@@ -78,18 +78,15 @@ func Generate(text string, opts Options) (*Result, error) {
 		return &Result{}, nil
 	}
 
-	// 1. Render with the chosen FIGlet font.
 	lines, err := renderer.Render(text, opts.Font)
 	if err != nil {
 		return nil, err
 	}
 
-	// 2. Apply width constraint (truncate long lines).
 	if opts.Width > 0 {
 		lines = truncateLines(lines, opts.Width)
 	}
 
-	// 3. Apply alignment.
 	if opts.Align != "" && opts.Align != "left" {
 		w := maxWidth(lines)
 		if opts.Width > 0 && opts.Width > w {
@@ -98,7 +95,6 @@ func Generate(text string, opts Options) (*Result, error) {
 		lines = align(lines, opts.Align, w)
 	}
 
-	// 4. Optionally add a drop shadow behind the letters.
 	if opts.TextShadow {
 		lines = applyTextShadow(lines)
 	}
@@ -114,7 +110,6 @@ func Generate(text string, opts Options) (*Result, error) {
 		styledLines = color.ApplyColor(lines, opts.Color)
 	}
 
-	// 6. Apply border.
 	if opts.Border != "" && opts.Border != "none" {
 		styledLines, err = border.Apply(styledLines, opts.Border, opts.Padding, opts.VPadding)
 		if err != nil {
@@ -122,7 +117,6 @@ func Generate(text string, opts Options) (*Result, error) {
 		}
 	}
 
-	// 7. Strip ANSI when requested.
 	plainLines := color.StripANSILines(styledLines)
 
 	styled := strings.Join(styledLines, "\n")
