@@ -12,8 +12,9 @@
 - 10 FIGlet fonts (standard, doom, slant, banner, and more)
 - Unicode box borders (single, double, rounded, bold, ASCII)
 - ANSI colors and two-color gradients
-- Four output formats: **terminal**, **txt**, **png**, **svg**
+- Five output formats: **terminal**, **txt**, **png**, **svg**, **json**
 - Auto-detects TTY; strips ANSI codes in pipes/CI
+- MCP server (`charmascii mcp`) for LLM / agent tool use
 
 ## Installation
 
@@ -71,6 +72,7 @@ charmascii "Hello World"
 charmascii "Hello World" --font doom --border double --color cyan
 charmascii "v2.0"       --font slant --border rounded --output png --out-file banner.png
 charmascii "API"        --font big   --gradient "blue:cyan" --border bold --align center
+charmascii "Hello"      --output json
 charmascii --list-fonts
 ```
 
@@ -84,7 +86,7 @@ charmascii --list-fonts
 | `--border-color` | `default` | Border color (same choices as `--color`) |
 | `--align` | `left` | Text alignment: left, center, right |
 | `--padding` | `1` | Inner padding inside border box |
-| `--output` | `terminal` | Output format: terminal, txt, png, svg |
+| `--output` | `terminal` | Output format: terminal, txt, png, svg, json |
 | `--out-file` | `./output.<ext>` | Output file path |
 | `--width` | terminal width | Max width in characters |
 | `--gradient` | | Two-color gradient e.g. `"red:blue"` |
@@ -92,6 +94,50 @@ charmascii --list-fonts
 | `--no-color` | `false` | Strip all ANSI codes |
 | `--list-fonts` | | Print available fonts and exit |
 | `--version` | | Print version, commit, and build date |
+
+## JSON Output
+
+Use `--output json` to get machine-readable output — useful for scripting or LLM tool calls:
+
+```bash
+charmascii "Hello" --output json
+```
+
+```json
+{
+  "success": true,
+  "plain": "  _   _          _   _         \n | | | |   ___  ...",
+  "styled": "  _   _          _   _         \n ...",
+  "metadata": { "font": "standard", "border": "none", "width": 0 }
+}
+```
+
+- `plain` — always ANSI-free; safe for any consumer
+- `styled` — may contain ANSI escape codes (omit `--no-color` to strip)
+- On error: `{"success": false, "error": "message"}`
+
+## MCP Server
+
+`charmascii mcp` starts a [Model Context Protocol](https://modelcontextprotocol.io) server over stdio, exposing the `generate_ascii` tool so any MCP-compatible LLM or agent can call it natively.
+
+```bash
+charmascii mcp
+```
+
+**Claude Code** — add to your MCP config (`~/.claude/claude_desktop_config.json` or project `.claude/settings.json`):
+
+```json
+{
+  "mcpServers": {
+    "charmascii": {
+      "command": "charmascii",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+The `generate_ascii` tool accepts: `text` (required), `font`, `border`, `color`, `align`, `padding`, `width`, `gradient`, `text_shadow`. Returns plain text (no ANSI).
 
 ## Library Usage
 
@@ -137,7 +183,8 @@ charmascii/
 │   ├── renderer/            # FIGlet rendering via go-figure
 │   ├── border/              # Box drawing via box-cli-maker
 │   ├── color/               # ANSI color + gradient via lipgloss
-│   └── output/              # terminal / txt / png / svg writers
+│   ├── output/              # terminal / txt / png / svg / json writers
+│   └── mcpserver/           # MCP server (generate_ascii tool)
 └── testdata/                # Golden files
 ```
 

@@ -47,12 +47,10 @@ func Render(text, font string) ([]string, error) {
 		lines = renderFIGText(text, ff)
 	}
 
-	// Trim trailing blank lines.
 	for len(lines) > 0 && strings.TrimSpace(lines[len(lines)-1]) == "" {
 		lines = lines[:len(lines)-1]
 	}
 
-	// Pad all lines to the same visual width (rune count, not byte count).
 	maxLen := 0
 	for _, l := range lines {
 		if w := utf8.RuneCountInString(l); w > maxLen {
@@ -95,7 +93,6 @@ func renderFIGText(text string, font *figFont) []string {
 		}
 	}
 
-	// Trim trailing spaces from every row.
 	for i, row := range rows {
 		rows[i] = strings.TrimRight(row, " ")
 	}

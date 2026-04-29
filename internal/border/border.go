@@ -109,27 +109,22 @@ func drawBox(lines []string, c boxChars, hPadding, vPadding int) []string {
 
 	result := make([]string, 0, len(lines)+2+vPadding*2)
 
-	// Top border
 	result = append(result, c.tl+strings.Repeat(c.h, innerWidth)+c.tr)
 
-	// Top vertical padding
 	for i := 0; i < vPadding; i++ {
 		result = append(result, c.v+strings.Repeat(" ", innerWidth)+c.v)
 	}
 
-	// Content lines
 	for _, line := range lines {
 		vw := visualWidth(line)
 		right := strings.Repeat(" ", innerWidth-vw-hPadding)
 		result = append(result, c.v+pad+line+right+c.v)
 	}
 
-	// Bottom vertical padding
 	for i := 0; i < vPadding; i++ {
 		result = append(result, c.v+strings.Repeat(" ", innerWidth)+c.v)
 	}
 
-	// Bottom border
 	result = append(result, c.bl+strings.Repeat(c.h, innerWidth)+c.br)
 
 	return result
