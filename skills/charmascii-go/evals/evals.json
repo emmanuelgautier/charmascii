@@ -1,0 +1,46 @@
+{
+  "skill_name": "charmascii-go",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm writing a Go CLI tool with Cobra and I want it to print a big bold 'MyApp' banner in cyan with a double border when it starts up. It should use the charmascii library, not shell out to the binary. Write the Go function.",
+      "expected_output": "A Go function using charmascii.DefaultOptions(), setting Font/Border/Color fields (e.g. doom or ansi_shadow font, double border, cyan color), calling charmascii.Generate, checking the error, and printing/returning result.Styled.",
+      "files": [],
+      "assertions": [
+        "Calls charmascii.DefaultOptions() as the starting point",
+        "Sets Options.Color to \"cyan\"",
+        "Sets Options.Border to \"double\"",
+        "Sets a bold/impact font (e.g. doom, block, ansi_shadow) matching 'big bold' terminal request",
+        "Calls charmascii.Generate(text, opts) and checks the returned error",
+        "Prints or returns result.Styled (not result.Lines) for terminal display",
+        "Uses github.com/emmanuelgautier/charmascii import, no shelling out to the CLI binary (no exec.Command)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here's a snippet from my Go HTTP handler:\n\nfunc handler(w http.ResponseWriter, r *http.Request) {\n    text := r.URL.Query().Get(\"text\")\n    // TODO: generate ascii art and return as JSON {\"lines\": [...]}\n}\n\nFill in the TODO using the charmascii library. Output must not contain ANSI escape codes since it's going into a JSON API response.",
+      "expected_output": "Uses charmascii.Generate, checks the error and returns an HTTP error on failure, and serializes result.Lines (not result.Styled) since Lines is always ANSI-free -- ideally without manually stripping ANSI or setting NoColor unnecessarily.",
+      "files": [],
+      "assertions": [
+        "Calls charmascii.Generate and checks the returned error, writing an HTTP error response on failure",
+        "Serializes result.Lines (the ANSI-free field), not result.Styled, as the JSON 'lines' value",
+        "Does not manually strip ANSI codes with regex/string replace (Lines is already ANSI-free)",
+        "Sets the response Content-Type to application/json or uses json.NewEncoder/json.Marshal correctly",
+        "Uses the text query param as the input to Generate"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write a small Go program using the charmascii package that prints a banner for every available font, so I can see what each one looks like.",
+      "expected_output": "Iterates charmascii.ListFonts() rather than a hardcoded font list, calls charmascii.Generate per font, checks errors per iteration (doesn't abort the whole loop on one bad font), and prints result.Styled or result.Lines.",
+      "files": [],
+      "assertions": [
+        "Calls charmascii.ListFonts() to enumerate fonts rather than hardcoding a font name list",
+        "Loops over the returned font list, setting Options.Font per iteration",
+        "Calls charmascii.Generate per font and checks/handles the error without aborting the whole loop on one failure",
+        "Prints result.Styled or result.Lines for each font",
+        "Is a complete, compilable-looking main package (package main, func main, needed imports)"
+      ]
+    }
+  ]
+}

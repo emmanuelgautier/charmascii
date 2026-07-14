@@ -1,0 +1,42 @@
+{
+  "skill_name": "charmascii",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make an ASCII banner for 'CHARM' with a double border in cyan.",
+      "expected_output": "Runs charmascii CLI with --border double --color cyan (font can be left default or reasonable), shows resulting terminal ASCII art to user.",
+      "files": [],
+      "assertions": [
+        "Command includes --border double",
+        "Command includes --color cyan",
+        "Command text argument is exactly CHARM, unmodified",
+        "Response shows the rendered ASCII art to the user, not just the command"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "make my project name 'nova' look cool in the terminal, something bold",
+      "expected_output": "Interprets vague style request into concrete flags (e.g. --font doom/block, maybe a border), runs charmascii, shows result. Should not just dump raw flag docs at the user.",
+      "files": [],
+      "assertions": [
+        "Chooses a bold-style font (doom, block, banner, bulbhead, or 3-d) rather than leaving default standard font",
+        "Uses terminal output (no --output png/svg/txt/json) since request was for terminal display",
+        "Command text argument is exactly nova, unmodified",
+        "Response briefly explains or shows reasoning for the style choice, not just raw output"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I want a big bold logo saying 'ACME' for my landing page, save it as an image",
+      "expected_output": "Runs charmascii with --font doom/big, --output png (or svg), sensible --bg-color/--color contrast, saves file and tells user the path.",
+      "files": [],
+      "assertions": [
+        "Uses --output png or --output svg",
+        "Chooses a big/bold font (doom, big, block, banner, bulbhead, or 3-d)",
+        "--bg-color and --color are set to contrasting values (not identical, not both dark or both light)",
+        "An actual image file exists on disk after the command runs",
+        "Response tells the user the file path where the image was saved"
+      ]
+    }
+  ]
+}
