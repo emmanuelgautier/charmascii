@@ -1,0 +1,82 @@
+[
+  {
+    "query": "I'm building a Cobra CLI in Go and want to print a big banner logo when it starts up, using the charmascii package instead of shelling out to a binary. Can you write that function for me?",
+    "should_trigger": true
+  },
+  {
+    "query": "quick q - i have `result, err := charmascii.Generate(text, opts)` in my go file and my IDE says opts.VPadding needs a value, what should i set it to for default behavior?",
+    "should_trigger": true
+  },
+  {
+    "query": "porting my bash startup script (which called the charmascii cli) into the actual go binary itself, need the equivalent Options struct calls instead of shelling out",
+    "should_trigger": true
+  },
+  {
+    "query": "add an ascii art title to the /health endpoint response of my go microservice using charmascii, output has to be plain json with no ansi codes in it",
+    "should_trigger": true
+  },
+  {
+    "query": "what does charmascii.DefaultOptions() set VPadding to and why is it -1 instead of 0",
+    "should_trigger": true
+  },
+  {
+    "query": "I want to iterate over every font charmascii supports and render a sample banner in each one -- go program to do that",
+    "should_trigger": true
+  },
+  {
+    "query": "editing charmascii.go itself and want to add a new field to the Options struct -- need to know how Padding vs VPadding currently threads through into border.Apply before I touch it",
+    "should_trigger": false
+  },
+  {
+    "query": "my go program panics when Gradient and Color are both set on charmascii.Options, is that expected behavior or a bug I should work around",
+    "should_trigger": true
+  },
+  {
+    "query": "convert this python script that just shells out to the `charmascii` cli binary into idiomatic go using the actual library import",
+    "should_trigger": true
+  },
+  {
+    "query": "explain what result.Lines vs result.Styled are for in the charmascii go package, not sure which one to use in my handler",
+    "should_trigger": true
+  },
+  {
+    "query": "how do I run charmascii from my terminal to make a banner for my README, what flags do I need for a double border in cyan",
+    "should_trigger": false
+  },
+  {
+    "query": "charmascii --font doom --border double 'Hello World' -- is doom a real font name, what other fonts are there",
+    "should_trigger": false
+  },
+  {
+    "query": "how do I FIGlet-ify text using pyfiglet in python for a little startup banner in my script",
+    "should_trigger": false
+  },
+  {
+    "query": "best way to add a banner/logo to my Go CLI's --help output, want something that looks nice when people run --help",
+    "should_trigger": true
+  },
+  {
+    "query": "can you review this Go PR for security issues, it's an http handler that renders ascii art from user-supplied input",
+    "should_trigger": false
+  },
+  {
+    "query": "add colorized log output to my go program using fatih/color, want error lines in red and warnings in yellow",
+    "should_trigger": false
+  },
+  {
+    "query": "I want to build my own tiny FIGlet-style font renderer in Go from scratch, no external deps, just as a learning project",
+    "should_trigger": false
+  },
+  {
+    "query": "need to bump the go.mod version constraint for charmascii to allow v2 -- how do major version bumps work with go modules",
+    "should_trigger": false
+  },
+  {
+    "query": "how do I configure the charmascii mcp server in my claude_desktop_config.json so an agent can call it directly",
+    "should_trigger": false
+  },
+  {
+    "query": "explain conceptually how FIGlet fonts and the .flf file format work, not looking for code, just curious how the format is structured",
+    "should_trigger": false
+  }
+]
